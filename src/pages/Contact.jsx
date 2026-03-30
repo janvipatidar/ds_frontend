@@ -10,7 +10,7 @@ const Contact = () => {
     phone: '',
     message: '',
   });
- console.log("formData",formData)
+  console.log("formData", formData)
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
@@ -49,27 +49,27 @@ const Contact = () => {
     }
     return true;
   };
-  
+
   const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setResume(file);
-  }
-};
+    const file = e.target.files[0];
+    if (file) {
+      setResume(file);
+    }
+  };
 
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
-    
+
   //   if (!validateForm()) {
   //     return;
   //   }
 
   //   setLoading(true);
-    
+
   //   try {
   //     const result = await sendEmail(formData);
-      
+
   //     if (result.success) {
   //       showSnackbar('Message sent successfully! We will get back to you soon.', 'success');
   //       setFormData({
@@ -88,39 +88,39 @@ const Contact = () => {
   //   }
   // };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}contact`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (res.ok) {
-      showSnackbar("Message sent successfully 🚀", "success");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-    } else {
-      showSnackbar("Failed to send message ❌", "error");
+
+      if (res.ok) {
+        showSnackbar("Message sent successfully 🚀", "success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          message: "",
+        });
+      } else {
+        showSnackbar("Failed to send message ❌", "error");
+      }
+    } catch (error) {
+      showSnackbar("Server error ❌", "error");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    showSnackbar("Server error ❌", "error");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
   const showSnackbar = (message, severity) => {
@@ -134,7 +134,15 @@ const handleSubmit = async (e) => {
   const contactInfo = [
     { icon: '📧', title: 'Email', value: 'Info@dreamsakar.com', gradient: 'from-indigo-500 to-purple-500' },
     { icon: '📞', title: 'Phone', value: '+91 8889992911', gradient: 'from-purple-500 to-cyan-500' },
-    { icon: '📍', title: 'Address', value: '1203-C, Vidur Nagar Indore (M.P.) 452009', gradient: 'from-cyan-500 to-indigo-500' },
+    {
+      icon: '📍', title: 'Address',
+      value: {
+        company: 'Dreamsakar Consulting Services',
+        headOffice: '1203-C, Vidur Nagar Indore (M.P.) 452009',
+        branchOffice: '15-1-413, Feel khana Hyderabad (Telangana) 500012'
+      },
+      gradient: 'from-cyan-500 to-indigo-500'
+    },
   ];
 
   return (
@@ -182,7 +190,26 @@ const handleSubmit = async (e) => {
                   <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">
                     {info.title}
                   </h3>
-                  <p className="text-slate-600">{info.value}</p>
+                  <div className="text-slate-600 space-y-2">
+                    {typeof info.value === "string" ? (
+                      <p>{info.value}</p>
+                    ) : (
+                      <>
+                        <p className="font-semibold">{info.value.company}</p>
+
+                        <div>
+                          <p className="font-medium text-slate-700">Head Office</p>
+                          <p>{info.value.headOffice}</p>
+                        </div>
+
+                        <div>
+                          <p className="font-medium text-slate-700">Branch Office</p>
+                          <p>{info.value.branchOffice}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
                 </motion.div>
               ))}
             </div>
@@ -218,7 +245,7 @@ const handleSubmit = async (e) => {
                       },
                     }}
                   />
-                  
+
                   <TextField
                     fullWidth
                     label="Email"
@@ -240,7 +267,7 @@ const handleSubmit = async (e) => {
                       },
                     }}
                   />
-                  
+
                   <TextField
                     fullWidth
                     label="Phone"
@@ -261,7 +288,7 @@ const handleSubmit = async (e) => {
                       },
                     }}
                   />
-                  
+
                   <TextField
                     fullWidth
                     label="Message"
@@ -284,7 +311,7 @@ const handleSubmit = async (e) => {
                       },
                     }}
                   />
-                  
+
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button
                       type="submit"
@@ -329,7 +356,7 @@ const handleSubmit = async (e) => {
         <Alert
           onClose={handleCloseSnackbar}
           severity={snackbar.severity}
-          sx={{ 
+          sx={{
             width: '100%',
             borderRadius: '12px',
             boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',

@@ -6,10 +6,12 @@ import Services from './pages/Services';
 import Contact from './pages/Contact';
 import JobSeeker from './pages/JobSeeker';
 import OurClients from './pages/OurClient';
+import ScrollToTop from './hooks/scrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />

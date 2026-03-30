@@ -1,15 +1,13 @@
 import { motion } from "framer-motion";
-import maxlife from "../images/Axis.png";
-import Kotak from "../images/Kotak_Life.png";
+import Kotak from "../images/Kotak.png";
 import IndusInd from "../images/indusInd.png";
-import AdityaBirla from "../images/aditya_birla_sun_life_insurance.webp";
-import Canara from "../images/canara-hsbc-life-insurance-logo-1.png";
-import Edelweiss from "../images/edelweiss.avif";
+import AdityaBirla from "../images/adityabirla.png";
+import Canara from "../images/canara.png";
+import Edelweiss from "../images/Edleiess.png";
+import CareHealth from "../images/Care_health.png";
+import GeneralCentral from "../images/Generali_Central.png";
+
 import { Link } from "react-router-dom";
-
-
-
-
 
 const OurClients = () => {
   return (
@@ -35,7 +33,7 @@ const OurClients = () => {
           {/* Logos Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-10 items-center">
 
-            {[maxlife, AdityaBirla, Kotak, IndusInd, Edelweiss, Canara].map((logo, index) => (
+            {[AdityaBirla, Kotak, IndusInd, Edelweiss, Canara,CareHealth,GeneralCentral].map((logo, index) => (
               <motion.div
                 whileHover={{ rotateX: 6, rotateY: -6, scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15 }}

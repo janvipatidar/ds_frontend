@@ -1,9 +1,11 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const Hero = () => {
   const ref = useRef(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"]
@@ -109,18 +111,18 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-block mb-8"
+            className="inline-block mb-14 lg:mb-8 mt-16"
           >
             <motion.span
               whileHover={{ scale: 1.05, y: -2 }}
-              className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-sm font-semibold shadow-lg hover:bg-white/15 transition-all duration-300"
+              className="px-2 lg:px-6 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-sm font-semibold shadow-lg hover:bg-white/15 transition-all duration-300"
             >
               🚀 Trusted by 50+ Professionals
             </motion.span>
           </motion.div>
 
           <motion.h1
-            className="text-8xl font-extrabold text-white mb-10 leading-[1.1] tracking-tight"
+            className="text-4xl lg:text-8xl font-extrabold text-white mb-4 lg:mb-10 leading-[1.1] tracking-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -138,7 +140,7 @@ const Hero = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl lg:text-3xl text-white/95 mb-14 max-w-4xl mx-auto leading-relaxed font-light"
+            className="text-sm md:text-2xl lg:text-3xl text-white/95 mb-14 max-w-4xl mx-auto leading-relaxed font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}

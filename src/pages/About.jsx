@@ -56,81 +56,72 @@ const About = () => {
       </section>
 
       {/* Company Overview Section */}
-<section className="py-24 bg-gradient-to-b from-white to-slate-50">
-  <div className="max-w-7xl mx-auto px-6 lg:px-8">
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section className="py-24 bg-gradient-to-b from-white to-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-      {/* IMAGE */}
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="relative"
-      >
-        <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200 to-purple-200 rounded-3xl blur-2xl opacity-40"></div>
+            {/* IMAGE */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-indigo-200 to-purple-200 rounded-3xl blur-2xl opacity-40"></div>
 
-        <img
-          src={Com1} // replace with your image path
-          alt="Company Overview"
-          className="relative rounded-3xl shadow-premium-xl object-cover w-full h-[420px]"
-        />
-      </motion.div>
+              <img
+                src={Com1} // replace with your image path
+                alt="Company Overview"
+                className="relative rounded-3xl shadow-premium-xl object-cover w-full h-[420px]"
+              />
+            </motion.div>
 
-      {/* CONTENT */}
-      <motion.div
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-      >
-        <span className="inline-block px-5 py-2 mb-6 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-sm">
-          Who We Are
-        </span>
+            {/* CONTENT */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="inline-block px-5 py-2 mb-6 rounded-full bg-indigo-100 text-indigo-700 font-semibold text-sm">
+                Who We Are
+              </span>
 
-        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-          A Trusted Placement & Recruitment Partner
-        </h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+                A Trusted Placement & Recruitment Partner
+              </h2>
 
-        <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
-          <p>
-            We are a part of <strong>Dreamsakar Consulting OPC Pvt. Ltd.</strong> (Hyderabad),
-            a prime executive search firm with a clear objective to cater to end-to-end
-            recruitment needs of our esteemed clients.
-          </p>
+              <div className="space-y-5 text-lg text-slate-600 leading-relaxed">
+                <p>
+                  We specialize in delivering reliable, efficient, and customized HR consulting solutions that connect the right talent with the right opportunities. With a deep understanding of industry demands and workforce dynamics, we support organizations in building strong, capable teams while helping professionals find meaningful career paths.
+                </p>
+                <p>
+                  We based at <strong>Indore (M.P.)</strong> with a branch office in <strong> Hyderabad (Telangana)</strong>, the company has moved up the value chain as one of the preferred recruiters for top companies across <strong> PAN India</strong>.
+                  Our services cover end-to-end recruitment support — from talent sourcing, screening, and evaluation to placement coordination — ensuring quality hires that align with business goals. We work closely with clients to understand their culture, role requirements, and growth plans, enabling us to provide precise and timely hiring solutions.
+                </p>
+                <p>
+                  Driven by integrity, transparency, and commitment, we aim to be more than a service provider — we strive to become a long-term strategic partner contributing to organizational success through people excellence.
+                </p>
+                <p>
+                  We cater to major sectors such as:
+                </p>
 
-          <p>
-            Based at <strong>Indore (M.P.)</strong> with a branch office in
-            <strong> Hyderabad (Telangana)</strong>, the company has moved up the value
-            chain as one of the preferred recruiters for top companies across
-            <strong> PAN India</strong>.
-          </p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-medium text-slate-700">
+                  <li>• Finance & Insurance</li>
+                  <li>• Banking & Securities</li>
+                  <li>• Information Technology (IT)</li>
+                </ul>
 
-          <p>
-            We specialize in junior to top management recruitment and deliver prompt
-            staffing services through our own candidate databank, along with referrals
-            from leading job portals to serve our clients with maximum efficiency.
-          </p>
+                <p className="pt-4 font-semibold text-slate-800">
+                  A right combination of <span className="text-indigo-600">KSAs</span> (Knowledge & Skills coupled with suitable Attitude) contributes to organizational success.
+                </p>
+              </div>
+            </motion.div>
 
-          <p>
-            We cater to major sectors such as:
-          </p>
-
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-medium text-slate-700">
-            <li>• Finance & Insurance</li>
-            <li>• Banking & Securities</li>
-            <li>• Information Technology (IT)</li>
-          </ul>
-
-          <p className="pt-4 font-semibold text-slate-800">
-            A right combination of <span className="text-indigo-600">KSAs</span> (Knowledge & Skills coupled with suitable Attitude) contributes to organizational success.
-          </p>
+          </div>
         </div>
-      </motion.div>
-
-    </div>
-  </div>
-</section>
+      </section>
 
 
       {/* Stats Section */}
@@ -260,13 +251,13 @@ const About = () => {
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8">Our Story</h2>
             <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
               <p>
-                Founded with a vision to revolutionize the placement industry, we have been at the forefront 
-                of connecting talented professionals with leading organizations. Over the years, we have built 
+                Founded with a vision to revolutionize the placement industry, we have been at the forefront
+                of connecting talented professionals with leading organizations. Over the years, we have built
                 strong relationships with top companies across various sectors.
               </p>
               <p>
-                Our team of experienced professionals is dedicated to providing personalized service, 
-                ensuring that each candidate finds the right opportunity and each company finds the perfect fit. 
+                Our team of experienced professionals is dedicated to providing personalized service,
+                ensuring that each candidate finds the right opportunity and each company finds the perfect fit.
                 We believe in long-term partnerships and continuous support throughout the career journey.
               </p>
             </div>

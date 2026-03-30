@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import imgSmall from "../../images/resized-for-web.jpeg";
 
-import maxlife from "../../images/happy-smiling-business-team.webp";
-import Kotak from "../../images/stock-photo.jpg";
-import IndusInd from "../../images/12.webp";
-import AdityaBirla from "../../images/depositphotos.jpg";
-import Canara from "../../images/job-consultancy.webp";
-import Edelweiss from "../../images/emp.jpeg";
+import Kotak from "../../images/12.webp";
+import IndusInd from "../../images/corporate-website-design.jpg";
+import AdityaBirla from "../../images/cus.jpg";
+import Canara from "../../images/hiring.avif";
+import Edelweiss from "../../images/job-consultancy.webp";
+
 
 const logos = [
-    maxlife,
     Kotak,
     IndusInd,
     AdityaBirla,
@@ -31,21 +30,21 @@ const ImageCarousel = () => {
     }, []);
 
     return (
-        <section className="py-28 bg-gray-100 rounded-[80px] mt-12">
+    <section className="py-14 md:py-20 lg:py-28 bg-gray-100 rounded-[30px] md:rounded-[60px] lg:rounded-[80px] mt-8 md:mt-12 px-4">
             <div className="max-w-7xl mx-auto px-6">
 
                 {/* TOP BAR */}
-                <div className="flex flex-wrap items-center justify-between gap-6 mb-16">
-                    <div className="flex flex-wrap items-center gap-3">
-                        <span className="px-4 py-1 rounded-full bg-indigo-100 text-indigo-700 text-sm font-semibold">
-                            ● ABOUT US
-                        </span>
+               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10 md:mb-16 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-3">
+            <span className="px-4 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs sm:text-sm font-semibold">
+              ● ABOUT US
+            </span>
 
-                        <h2 className="max-w-75 text-3xl md:text-4xl font-extrabold text-slate-900 text-center flex-1">
-                            Connecting Ambition with Opportunity
-                        </h2>
-                    </div>
-                </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900">
+              Connecting Ambition with Opportunity
+            </h2>
+          </div>
+        </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
 

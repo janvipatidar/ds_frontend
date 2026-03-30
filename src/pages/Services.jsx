@@ -4,8 +4,8 @@ import Cus from "../images/cus.jpg"
 
 import cand_reg from "../images/candidate_reg.jpg"
 import pro_scr from "../images/profile_screening.jpeg"
-import int_cord from "../images/int_cord.webp"
-import pla_onbo from "../images/onboarding.webp"
+import int_cord from "../images/int_cord.jpg"
+import pla_onbo from "../images/onboarding.jpg"
 
 const Services = () => {
 const services = [

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaLinkedin } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -18,10 +20,20 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { name: 'LinkedIn', icon: '💼', href: '#' },
-    { name: 'Twitter', icon: '🐦', href: '#' },
-    { name: 'Facebook', icon: '📘', href: '#' },
-    { name: 'Instagram', icon: '📷', href: '#' },
+    {
+      name: "LinkedIn",
+      icon: <FaLinkedin />,
+      href: "https://www.linkedin.com/in/dreamsakar-consulting-services-8771021a6/",
+      color: "text-[#0077B5]",
+    },
+    {
+      name: "Facebook",
+      icon: <FaFacebook />,
+      href: "#",
+      color: "text-[#1877F2]",
+    },
+    // { name: 'Twitter', icon: '🐦', href: '#' },
+    // { name: 'Instagram', icon: '📷', href: '#' },
   ];
 
   return (
@@ -46,12 +58,15 @@ const Footer = () => {
                 <motion.a
                   key={index}
                   href={social.href}
+                  target='blank'
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-indigo-600 flex items-center justify-center transition-colors duration-300"
                   aria-label={social.name}
                 >
-                  <span className="text-lg">{social.icon}</span>
+                  <span className={`text-xl ${social.color} hover:text-white`}>
+                    {social.icon}
+                  </span>
                 </motion.a>
               ))}
             </div>

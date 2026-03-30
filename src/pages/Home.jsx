@@ -3,12 +3,13 @@ import FeatureCard from '../components/FeatureCard';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useRef } from 'react';
-import maxlife from "../images/Axis.png";
-import Kotak from "../images/Kotak_Life.png";
+import Kotak from "../images/Kotak.png";
 import IndusInd from "../images/indusInd.png";
-import AdityaBirla from "../images/aditya_birla_sun_life_insurance.webp";
-import Canara from "../images/canara-hsbc-life-insurance-logo-1.png";
-import Edelweiss from "../images/edelweiss.avif";
+import AdityaBirla from "../images/adityabirla.png";
+import Canara from "../images/canara.png";
+import Edelweiss from "../images/Edleiess.png";
+import CareHealth from "../images/Care_health.png";
+import GeneralCentral from "../images/Generali_Central.png";
 import ImageCarousel from './components/ImageCarousal';
 import { configDotenv } from 'dotenv';
 
@@ -16,12 +17,13 @@ const Home = () => {
   const featuresRef = useRef(null);
   const ctaRef = useRef(null);
   const logos = [
-    maxlife,
     Kotak,
     IndusInd,
     AdityaBirla,
     Canara,
     Edelweiss,
+    CareHealth,
+    GeneralCentral
   ];
 
 
