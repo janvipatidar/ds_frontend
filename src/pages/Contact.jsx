@@ -96,7 +96,8 @@ const Contact = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}contact`, {
+      const apiBase = String(import.meta.env.VITE_BACKEND_URL || "").replace(/\/+$/, "");
+      const res = await fetch(`${apiBase}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

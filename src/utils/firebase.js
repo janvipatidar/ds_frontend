@@ -4,18 +4,20 @@ import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration is read from env to avoid hardcoding keys in repo.
+// (Vite exposes these as import.meta.env.* at build time)
 const firebaseConfig = {
-  apiKey: "AIzaSyDDfT2XkZ3onS5gQAU2oeT_gRpUfW16Dhc",
-  authDomain: "dreamsakar-b4d41.firebaseapp.com",
-  projectId: "dreamsakar-b4d41",
-  storageBucket: "dreamsakar-b4d41.firebasestorage.app",
-  messagingSenderId: "982061790643",
-  appId: "1:982061790643:web:db3948c8fe4112317d47c6",
-  measurementId: "G-FTHQDXK79V"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+export { app, analytics };
