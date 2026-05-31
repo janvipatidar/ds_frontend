@@ -127,3 +127,13 @@ body {
          focus:border-indigo-500
          transition;
 }
+
+/* Dropdown list: readable black text on white (fixes dark-theme option styling) */
+select.input {
+  color: #fff;
+}
+
+select.input option {
+  color: #0f172a;
+  background-color: #ffffff;
+}

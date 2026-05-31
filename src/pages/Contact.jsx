@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TextField, Button, Alert, Snackbar } from '@mui/material';
-import { initEmailJS, sendEmail } from '../utils/emailjs';
+import { TextField, Button } from '@mui/material';
+import toast from 'react-hot-toast';
+import { validateContactForm } from '../utils/validation';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,14 +11,7 @@ const Contact = () => {
     phone: '',
     message: '',
   });
-  console.log("formData", formData)
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
-
-  // Initialize EmailJS on component mount
-  useEffect(() => {
-    initEmailJS();
-  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,72 +20,14 @@ const Contact = () => {
     });
   };
 
-  const validateForm = () => {
-    if (!formData.name.trim()) {
-      showSnackbar('Please enter your name', 'error');
-      return false;
-    }
-    if (!formData.email.trim()) {
-      showSnackbar('Please enter your email', 'error');
-      return false;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      showSnackbar('Please enter a valid email address', 'error');
-      return false;
-    }
-    if (!formData.phone.trim()) {
-      showSnackbar('Please enter your phone number', 'error');
-      return false;
-    }
-    if (!formData.message.trim()) {
-      showSnackbar('Please enter your message', 'error');
-      return false;
-    }
-    return true;
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setResume(file);
-    }
-  };
-
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-
-  //   try {
-  //     const result = await sendEmail(formData);
-
-  //     if (result.success) {
-  //       showSnackbar('Message sent successfully! We will get back to you soon.', 'success');
-  //       setFormData({
-  //         name: '',
-  //         email: '',
-  //         phone: '',
-  //         message: '',
-  //       });
-  //     } else {
-  //       showSnackbar(result.error || 'Failed to send message. Please try again.', 'error');
-  //     }
-  //   } catch (error) {
-  //     showSnackbar('An error occurred. Please try again later.', 'error');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    const errors = validateContactForm(formData);
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg));
+      return;
+    }
 
     setLoading(true);
 
@@ -102,11 +38,18 @@ const Contact = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          message: formData.message.trim(),
+        }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
-        showSnackbar("Message sent successfully 🚀", "success");
+        toast.success("Message sent successfully! We will get back to you soon.");
         setFormData({
           name: "",
           email: "",
@@ -114,22 +57,13 @@ const Contact = () => {
           message: "",
         });
       } else {
-        showSnackbar("Failed to send message ❌", "error");
+        toast.error(data.message || "Failed to send message");
       }
     } catch (error) {
-      showSnackbar("Server error ❌", "error");
+      toast.error("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
-  };
-
-
-  const showSnackbar = (message, severity) => {
-    setSnackbar({ open: true, message, severity });
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
   };
 
   const contactInfo = [
@@ -271,11 +205,12 @@ const Contact = () => {
 
                   <TextField
                     fullWidth
-                    label="Phone"
+                    label="Phone (10 digits)"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     variant="outlined"
+                    inputProps={{ inputMode: 'numeric', maxLength: 14 }}
                     required
                     sx={{
                       '& .MuiOutlinedInput-root': {
@@ -347,25 +282,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Snackbar for notifications */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          sx={{
-            width: '100%',
-            borderRadius: '12px',
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-          }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </div>
   );
 };

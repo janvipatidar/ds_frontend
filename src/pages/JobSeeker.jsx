@@ -502,8 +502,11 @@
 
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Autocomplete, Chip, TextField } from "@mui/material";
+import toast from "react-hot-toast";
+import { INDIA_STATES, getCitiesForState } from "../data/indiaLocations";
+import { validateCandidateForm } from "../utils/validation";
 
 const JobSeeker = () => {
   const [formData, setFormData] = useState({
@@ -516,7 +519,8 @@ const JobSeeker = () => {
     previousEmployer: "",
     keySkills: [],
     currentIndustry: "",
-    location: "",
+    state: "",
+    city: "",
     email: "",
     phone: "",
     expectedSalary: "",
@@ -525,6 +529,10 @@ const JobSeeker = () => {
 
   const [resumeFile, setResumeFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const cityOptions = useMemo(
+    () => (formData.state ? getCitiesForState(formData.state) : []),
+    [formData.state]
+  );
 
   const NOTICE_PERIODS = [
     "Immediate",
@@ -547,14 +555,21 @@ const JobSeeker = () => {
   // 🔥 Submit Handler (NEW API)
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateCandidateForm(formData);
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg));
+      return;
+    }
+
     setLoading(true);
 
     try {
       const apiBase = String(import.meta.env.VITE_BACKEND_URL || "").replace(/\/+$/, "");
       const form = new FormData();
-      form.append("name", formData.name);
-      form.append("email", formData.email);
-      form.append("phone", formData.phone);
+      form.append("name", formData.name.trim());
+      form.append("email", formData.email.trim());
+      form.append("phone", formData.phone.trim());
       form.append("dateOfBirth", formData.dateOfBirth);
       form.append("education", formData.education);
       form.append("experience", String(formData.experience ?? ""));
@@ -563,7 +578,8 @@ const JobSeeker = () => {
       form.append("previousEmployer", formData.previousEmployer);
       form.append("keySkills", formData.keySkills.join(", "));
       form.append("currentIndustry", formData.currentIndustry);
-      form.append("location", formData.location);
+      form.append("state", formData.state);
+      form.append("city", formData.city);
       form.append("expectedSalary", String(formData.expectedSalary ?? ""));
       form.append("notes", formData.notes);
       if (resumeFile) form.append("resume", resumeFile);
@@ -573,8 +589,10 @@ const JobSeeker = () => {
         body: form,
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
-        alert("Application Submitted Successfully 🚀");
+        toast.success("Application submitted successfully!");
 
         setFormData({
           name: "",
@@ -586,7 +604,8 @@ const JobSeeker = () => {
           previousEmployer: "",
           keySkills: [],
           currentIndustry: "",
-          location: "",
+          state: "",
+          city: "",
           email: "",
           phone: "",
           expectedSalary: "",
@@ -594,11 +613,11 @@ const JobSeeker = () => {
         });
         setResumeFile(null);
       } else {
-        alert("Failed to submit ❌");
+        toast.error(data.message || "Failed to submit application");
       }
     } catch (error) {
       console.error(error);
-      alert("Something went wrong ❌");
+      toast.error("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -653,11 +672,13 @@ const JobSeeker = () => {
 
             <input
               className="input"
-              placeholder="Phone"
+              placeholder="Phone (10 digits)"
               value={formData.phone}
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
               }
+              inputMode="numeric"
+              maxLength={14}
               required
             />
 
@@ -753,15 +774,41 @@ const JobSeeker = () => {
               )}
             />
 
-            {/* Location & Industry */}
-            <input
+            {/* State & City */}
+            <select
               className="input"
-              placeholder="Location"
-              value={formData.location}
+              value={formData.state}
               onChange={(e) =>
-                setFormData({ ...formData, location: e.target.value })
+                setFormData({ ...formData, state: e.target.value, city: "" })
               }
-            />
+              required
+            >
+              <option value="">Select State</option>
+              {INDIA_STATES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+
+            <select
+              className="input"
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
+              disabled={!formData.state}
+              required
+            >
+              <option value="">
+                {formData.state ? "Select City" : "Select state first"}
+              </option>
+              {cityOptions.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
 
             <select
               className="input"
