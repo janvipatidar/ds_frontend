@@ -506,11 +506,14 @@ import { useMemo, useState } from "react";
 import { Autocomplete, Chip, TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import { INDIA_STATES, getCitiesForState } from "../data/indiaLocations";
+import { isOtherCity } from "../utils/city";
 import { validateCandidateForm } from "../utils/validation";
 
 const JobSeeker = () => {
   const [formData, setFormData] = useState({
     name: "",
+    designation: "",
+    currentCTC: "",
     dateOfBirth: "",
     education: "",
     experience: "",
@@ -527,6 +530,7 @@ const JobSeeker = () => {
     notes: "",
   });
 
+  const [customCity, setCustomCity] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const cityOptions = useMemo(
@@ -556,7 +560,7 @@ const JobSeeker = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const errors = validateCandidateForm(formData);
+    const errors = validateCandidateForm({ ...formData, customCity });
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg));
       return;
@@ -568,6 +572,8 @@ const JobSeeker = () => {
       const apiBase = String(import.meta.env.VITE_BACKEND_URL || "").replace(/\/+$/, "");
       const form = new FormData();
       form.append("name", formData.name.trim());
+      form.append("designation", formData.designation.trim());
+      form.append("currentCTC", String(formData.currentCTC ?? ""));
       form.append("email", formData.email.trim());
       form.append("phone", formData.phone.trim());
       form.append("dateOfBirth", formData.dateOfBirth);
@@ -580,6 +586,9 @@ const JobSeeker = () => {
       form.append("currentIndustry", formData.currentIndustry);
       form.append("state", formData.state);
       form.append("city", formData.city);
+      if (isOtherCity(formData.city)) {
+        form.append("customCity", customCity.trim());
+      }
       form.append("expectedSalary", String(formData.expectedSalary ?? ""));
       form.append("notes", formData.notes);
       if (resumeFile) form.append("resume", resumeFile);
@@ -596,6 +605,8 @@ const JobSeeker = () => {
 
         setFormData({
           name: "",
+          designation: "",
+          currentCTC: "",
           dateOfBirth: "",
           education: "",
           experience: "",
@@ -611,6 +622,7 @@ const JobSeeker = () => {
           expectedSalary: "",
           notes: "",
         });
+        setCustomCity("");
         setResumeFile(null);
       } else {
         toast.error(data.message || "Failed to submit application");
@@ -627,22 +639,52 @@ const JobSeeker = () => {
     <div className="pt-24 overflow-x-hidden">
       {/* HERO */}
       <section className="bg-gradient-to-br from-indigo-600 via-purple-600 to-cyan-600 text-white py-24 text-center">
-        <h1 className="text-5xl font-bold mb-4">Job Seeker Portal</h1>
-        <p className="text-lg">
-          Apply for top jobs and get hired faster 🚀
-        </p>
-      </section>
+    <div className="max-w-4xl mx-auto px-6">
+      <h1 className="text-5xl font-bold mb-6">
+        Find Your Dream Job Faster 🚀
+      </h1>
+
+      <p className="text-xl leading-relaxed mb-8">
+        Complete this application form and join our talent network.  
+        Your profile will be reviewed by recruiters and matched with
+        suitable job opportunities based on your skills, experience,
+        location, and career goals.
+      </p>
+
+      <div className="grid md:grid-cols-3 gap-4 text-left max-w-3xl mx-auto">
+        <div className="bg-white/10 rounded-xl p-4">
+          ✅ Fill your profile details
+        </div>
+
+        <div className="bg-white/10 rounded-xl p-4">
+          📄 Upload your updated resume
+        </div>
+
+        <div className="bg-white/10 rounded-xl p-4">
+          🎯 Get matched with relevant jobs
+        </div>
+      </div>
+
+      <p className="mt-8 text-sm text-white/90">
+        Please provide accurate information to increase your chances of getting shortlisted.
+      </p>
+    </div>
+  </section>
 
       {/* FORM */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl font-bold text-center mb-12"
-          >
-            Apply Now
-          </motion.h2>
+       <section className="py-20 bg-slate-900 text-white">
+    <div className="max-w-5xl mx-auto px-6">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        className="text-4xl font-bold text-center mb-3"
+      >
+        Apply Now
+      </motion.h2>
+
+      <p className="text-center text-gray-400 mb-12">
+        Fill out the form below and submit your application to explore available opportunities.
+      </p>
 
           <form
             onSubmit={handleSubmit}
@@ -655,6 +697,29 @@ const JobSeeker = () => {
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
+              }
+              required
+            />
+
+            <input
+              className="input"
+              placeholder="Designation"
+              value={formData.designation}
+              onChange={(e) =>
+                setFormData({ ...formData, designation: e.target.value })
+              }
+              required
+            />
+
+            <input
+              className="input"
+              type="number"
+              min="0"
+              step="0.1"
+              placeholder="Current CTC (LPA)"
+              value={formData.currentCTC}
+              onChange={(e) =>
+                setFormData({ ...formData, currentCTC: e.target.value })
               }
               required
             />
@@ -778,9 +843,10 @@ const JobSeeker = () => {
             <select
               className="input"
               value={formData.state}
-              onChange={(e) =>
-                setFormData({ ...formData, state: e.target.value, city: "" })
-              }
+              onChange={(e) => {
+                setFormData({ ...formData, state: e.target.value, city: "" });
+                setCustomCity("");
+              }}
               required
             >
               <option value="">Select State</option>
@@ -794,9 +860,11 @@ const JobSeeker = () => {
             <select
               className="input"
               value={formData.city}
-              onChange={(e) =>
-                setFormData({ ...formData, city: e.target.value })
-              }
+              onChange={(e) => {
+                const next = e.target.value;
+                setFormData({ ...formData, city: next });
+                if (!isOtherCity(next)) setCustomCity("");
+              }}
               disabled={!formData.state}
               required
             >
@@ -809,6 +877,16 @@ const JobSeeker = () => {
                 </option>
               ))}
             </select>
+
+            {isOtherCity(formData.city) && (
+              <input
+                className="input"
+                placeholder="Custom City *"
+                value={customCity}
+                onChange={(e) => setCustomCity(e.target.value)}
+                required
+              />
+            )}
 
             <select
               className="input"

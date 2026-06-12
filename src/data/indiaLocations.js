@@ -40,5 +40,26 @@ export const INDIA_STATES_CITIES = {
 
 export const INDIA_STATES = Object.keys(INDIA_STATES_CITIES).sort();
 
-export const getCitiesForState = (state) =>
-  INDIA_STATES_CITIES[state] ? [...INDIA_STATES_CITIES[state]].sort() : [];
+export const OTHER_CITY_OPTION = 'Other';
+
+export const getCitiesForState = (state, includeOther = true) => {
+  const cities = INDIA_STATES_CITIES[state]
+    ? [...INDIA_STATES_CITIES[state]].sort()
+    : [];
+  if (includeOther && state) {
+    return [...cities, OTHER_CITY_OPTION];
+  }
+  return cities;
+};
+
+/** For edit flows: if saved city is not in the list, use Other + custom value */
+export const splitCityForForm = (state, savedCity) => {
+  const city = String(savedCity || '').trim();
+  if (!city) return { citySelect: '', customCity: '' };
+
+  const predefined = getCitiesForState(state, false);
+  if (predefined.includes(city)) {
+    return { citySelect: city, customCity: '' };
+  }
+  return { citySelect: OTHER_CITY_OPTION, customCity: city };
+};
