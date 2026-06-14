@@ -506,6 +506,7 @@ import { useMemo, useState } from "react";
 import { Autocomplete, Chip, TextField } from "@mui/material";
 import toast from "react-hot-toast";
 import { INDIA_STATES, getCitiesForState } from "../data/indiaLocations";
+import { EDUCATION_OPTIONS, INDUSTRY_OPTIONS } from "../constants/candidateOptions";
 import { isOtherCity } from "../utils/city";
 import { validateCandidateForm } from "../utils/validation";
 
@@ -545,15 +546,6 @@ const JobSeeker = () => {
     "2 months",
     "3 months",
     "6 months",
-  ];
-
-  const INDUSTRIES = [
-    "IT",
-    "Finance",
-    "Healthcare",
-    "Insurance",
-    "Banking",
-    "Marketing",
   ];
 
   // 🔥 Submit Handler (NEW API)
@@ -756,14 +748,21 @@ const JobSeeker = () => {
               }
             />
 
-            <input
+            <select
               className="input"
-              placeholder="Education"
               value={formData.education}
               onChange={(e) =>
                 setFormData({ ...formData, education: e.target.value })
               }
-            />
+              required
+            >
+              <option value="">Select Education</option>
+              {EDUCATION_OPTIONS.map((edu) => (
+                <option key={edu} value={edu}>
+                  {edu}
+                </option>
+              ))}
+            </select>
 
             <input
               className="input"
@@ -888,18 +887,31 @@ const JobSeeker = () => {
               />
             )}
 
-            <select
-              className="input"
-              value={formData.currentIndustry}
-              onChange={(e) =>
-                setFormData({ ...formData, currentIndustry: e.target.value })
+            <Autocomplete
+              options={INDUSTRY_OPTIONS}
+              value={formData.currentIndustry || null}
+              onChange={(e, value) =>
+                setFormData({ ...formData, currentIndustry: value || "" })
               }
-            >
-              <option value="">Current Industry</option>
-              {INDUSTRIES.map((i) => (
-                <option key={i}>{i}</option>
-              ))}
-            </select>
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Current Industry"
+                  variant="outlined"
+                />
+              )}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  color: "white",
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  borderRadius: "12px",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "& .MuiSvgIcon-root": { color: "white" },
+              }}
+            />
 
             <input
               className="input"
