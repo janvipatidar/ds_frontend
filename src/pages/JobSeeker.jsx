@@ -528,7 +528,6 @@ const JobSeeker = () => {
     email: "",
     phone: "",
     expectedSalary: "",
-    notes: "",
   });
 
   const [customCity, setCustomCity] = useState("");
@@ -582,7 +581,6 @@ const JobSeeker = () => {
         form.append("customCity", customCity.trim());
       }
       form.append("expectedSalary", String(formData.expectedSalary ?? ""));
-      form.append("notes", formData.notes);
       if (resumeFile) form.append("resume", resumeFile);
 
       const res = await fetch(`${apiBase}/api/candidate`, {
@@ -612,7 +610,6 @@ const JobSeeker = () => {
           email: "",
           phone: "",
           expectedSalary: "",
-          notes: "",
         });
         setCustomCity("");
         setResumeFile(null);
@@ -931,13 +928,6 @@ const JobSeeker = () => {
                 className="w-full file:px-6 file:py-3 file:rounded-xl file:bg-white/20 file:text-white"
               />
             </div>
-
-            <textarea
-              className="input md:col-span-2 min-h-[120px]"
-              placeholder="Notes (optional)"
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            />
 
             {/* Submit */}
             <button
